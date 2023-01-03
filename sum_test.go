@@ -2,6 +2,7 @@ package main
 
 import (
 	"reflect"
+	"strings"
 	"testing"
 )
 
@@ -67,5 +68,24 @@ func TestFind(t *testing.T) {
 
 		AssertTrue(t, found)
 		AssertEqual(t, firstEvenNumber, 2)
+	})
+
+	type Person struct {
+		Name string
+	}
+
+	t.Run("find the best programmer", func(t *testing.T) {
+		people := []Person{
+			Person{Name: "Martin Fowler"},
+			Person{Name: "Kent Beck"},
+			Person{Name: "Conor Ney"},
+		}
+
+		king, found := Find(people, func(p Person) bool {
+			return strings.Contains(p.Name, "Conor Ney")
+		})
+
+		AssertTrue(t, found)
+		AssertEqual(t, king, Person{Name: "Conor Ney"})
 	})
 }
